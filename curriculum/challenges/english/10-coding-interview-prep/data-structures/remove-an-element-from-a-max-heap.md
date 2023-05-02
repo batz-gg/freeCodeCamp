@@ -174,4 +174,44 @@ const MaxHeap = function () {
 
 ```js
 // solution required
+// Remove the maximum element from the heap.
+//
+// Returns the maximum element.
+this.remove = () => {
+  // Pop the last element off the heap.
+  const element = this.heap.pop();
+
+  // If the heap is now empty, then return the element that was popped.
+  if (this.heap.length === 0) {
+    return element;
+  }
+
+  // Copy the last element to the root of the heap.
+  this.heap[0] = element;
+
+  // Start at the root and recursively call heapifyUp() on the root's children.
+  let parentIndex = 0;
+  while (parentIndex * 2 + 1 < this.heap.length) {
+    // Get the children of the current node.
+    const firstChild = this.heap[parentIndex * 2 + 1];
+    const secondChild = this.heap[parentIndex * 2 + 2] ? this.heap[parentIndex * 2 + 2] : null;
+
+    // Get the index of the child with the maximum value.
+    const maxChildIndex = this.heap.indexOf(Math.max(firstChild, secondChild));
+
+    // If the maximum child is greater than the current node, then swap them.
+    if (this.heap[maxChildIndex] > this.heap[parentIndex]) {
+      const parentCopy = this.heap[parentIndex];
+      this.heap[parentIndex] = this.heap[maxChildIndex];
+      this.heap[maxChildIndex] = parentCopy;
+    }
+
+    // Increment the parent index.
+    parentIndex++;
+  }
+
+  // Return the element that was originally at the root.
+  return removedElement;
+};
+
 ```
